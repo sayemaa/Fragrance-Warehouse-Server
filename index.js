@@ -35,6 +35,7 @@ async function run() {
     try {
         await client.connect();
         const itemCollection = client.db('warehouse').collection('item');
+        const reviewsCollection = client.db('warehouse').collection('reviews');
 
         /* AUTH */
         app.post('/login', async (req, res) => {
@@ -101,6 +102,14 @@ async function run() {
             const result = await itemCollection.deleteOne(query);
             res.send(result);
         })
+
+        //REVIEWS API
+        app.get('/reviews', async (req, res) => {
+            const query = {};
+            const cursor = reviewsCollection.find(query);
+            const reviews = await cursor.toArray();
+            res.send(reviews);
+        });
     }
     finally {
 
