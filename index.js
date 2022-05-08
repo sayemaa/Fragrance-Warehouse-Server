@@ -33,7 +33,7 @@ async function run() {
             res.send(item);
         })
 
-        // Deliver & Restock items
+        // Deliver & Restock items (PUT)
         app.put('/inventory/:id', async (req, res) => {
             const id = req.params.id;
             const restockItem = req.body;
@@ -48,10 +48,18 @@ async function run() {
             res.send(result);
         })
 
-        // Add Item
+        // Add Item (POST)
         app.post('/inventory', async (req, res) => {
             const newItem = req.body;
             const result = await itemCollection.insertOne(newItem);
+            res.send(result);
+        })
+
+        // DELETE
+        app.delete('/inventory/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const result = await itemCollection.deleteOne(query);
             res.send(result);
         })
     }
