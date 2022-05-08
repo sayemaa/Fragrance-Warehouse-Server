@@ -88,6 +88,12 @@ async function run() {
             }
         })
 
+        app.post('/inventory', async (req, res) => {
+            const newItem = req.body;
+            const result = await itemCollection.insertOne(newItem);
+            res.send(result);
+        })
+
         // DELETE
         app.delete('/inventory/:id', async (req, res) => {
             const id = req.params.id;
